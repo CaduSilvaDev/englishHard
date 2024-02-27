@@ -10,39 +10,53 @@ const data = [
     'A Chinese photographer',
     'A Russia spy',
     'A Bolivian reporter',
-    'An Australian writer'
+    'An Australian writer',
+    'Is Messi a good soccer player?',
+    'Are they Bolivian writes?'
 ];
 
 let voices = document.querySelector('#voices');
 let button = document.querySelector('#button');
 let selectedVoice = 3;
-
-const drawnNumbers = [];
+let qtStuding = 0;
+const qtMustStuding = 5;
+var drawnNumbers = [];
 
 const generateNum = () => {
-    if(drawnNumbers.length == 3){
+    if(drawnNumbers.length == data.length){
+        let nuLastPosition = drawnNumbers[drawnNumbers.length - 1];
         drawnNumbers.length = 0;
-    }
-    
-    let num = Math.floor(Math.random() * (data.length + 1));
-    numRepet = drawnNumbers.some(item => item == num);
+        drawnNumbers.push(nuLastPosition);
+        qtStuding++
 
-    while(numRepet){
-        let num = Math.floor(Math.random() * (data.length + 1));
-        numRepet = drawnNumbers.some(item => item == num);
-
-        if(!numRepet){
-            drawnNumbers.push(num);
+        if(qtStuding == qtMustStuding){
+            alert("Boaaa! Agora pode descansar um pouco.");
         }
     }
+
+    let num = Math.floor(Math.random() * (data.length + 1));
+    let numRepet = drawnNumbers.some(item => item == num);
+
+    if(!numRepet){
+        drawnNumbers.push(num);
+    }else{
+        while(numRepet){
+            num = Math.floor(Math.random() * (data.length + 1));
+            numRepet = drawnNumbers.some(item => item == num);
+    
+            if(!numRepet){
+                console.log("Validação final: ", numRepet);
+                drawnNumbers.push(num);
+            }
+        }
+    }
+
     return num;
 }
 
-console.log("here", generateNum());
 
 window.speechSynthesis.addEventListener('voiceschanged', () => {
     let voicesList = window.speechSynthesis.getVoices();
-    console.log(voicesList);
 
     voicesList.forEach((item, i) => {
         if(i == 3 || i == 4 || i == 5){
@@ -59,7 +73,7 @@ button.addEventListener('click', () => {
     let voicesList = window.speechSynthesis.getVoices();
     
     let ut = new SpeechSynthesisUtterance(data[generateNum()]);
-
+    console.log("Aquiiii", drawnNumbers);
     ut.voice =  voicesList[selectedVoice];
     window.speechSynthesis.speak(ut);
 });
