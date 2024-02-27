@@ -4,7 +4,10 @@ const data = [
     'A Canadian judge',
     'A Brazilian TV host',
     'An Indian bodyguard',
-    'A Korean Idol'
+    'A Korean Idol',
+    'An Argentine actor',
+    'A Mexican soccer player',
+    'A Chinese photographer'
 ];
 
 let voices = document.querySelector('#voices');
