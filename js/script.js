@@ -49,12 +49,21 @@ buttonNextOne.addEventListener('click', async () => {
     const response = await fetchData();
 
     //Retorna apenas o texto da API
-    textAPI = response.data.data.deText;
+    if(response.status === 404) {
+        textH3.innerText = "You have finished your studies, now you can rest!";
+        textAPI = "You have finished your studies, now you can rest!";
 
-    console.log(textAPI);
-    let ut = new SpeechSynthesisUtterance(textAPI);
-    ut.voice =  voicesList[selectedVoice];
-    window.speechSynthesis.speak(ut);
+        let ut = new SpeechSynthesisUtterance(textAPI);
+        ut.voice =  voicesList[selectedVoice];
+        window.speechSynthesis.speak(ut);
+    }
+    else {
+        textAPI = response.data.data.deText;
+
+        let ut = new SpeechSynthesisUtterance(textAPI);
+        ut.voice =  voicesList[selectedVoice];
+        window.speechSynthesis.speak(ut);
+    }
 });
 
 //Botão que repetirá o texto
